@@ -1,0 +1,73 @@
+{
+  "name": "chamber-orchestra/doctrine-extensions-bundle",
+  "type": "library",
+  "description": "The symfony doctrine extensions bundle",
+  "keywords": [
+    "symfony",
+    "doctrine-extensions-bundle",
+    "doctrine-extensions",
+    "doctrine",
+    "api",
+    "json",
+    "typescript"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Andrew Lukin",
+      "email": "lukin.andrej@gmail.com",
+      "homepage": "https://github.com/wtorsi",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "ext-intl": "*",
+    "php": "^8.4",
+    "symfony/dependency-injection": "8.0.*",
+    "symfony/config": "8.0.*",
+    "symfony/framework-bundle": "8.0.*",
+    "symfony/runtime": "8.0.*",
+    "symfony/options-resolver": "8.0.*",
+    "symfony/clock": "8.0.*",
+    "doctrine/orm": "^3.0",
+    "doctrine/common": "^3.0",
+    "doctrine/doctrine-bundle": "3.2.*",
+    "chamber-orchestra/metadata-bundle": "8.0.*",
+    "php-ds/php-ds": "*",
+    "symfony/string": "*",
+    "symfony/uid": "*",
+    "symfony/translation-contracts": "^3.6"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^12.5",
+    "symfony/test-pack": "^1.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "ChamberOrchestra\\DoctrineExtensionsBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "stable",
+  "conflict": {
+    "symfony/symfony": "*"
+  },
+  "extra": {
+    "symfony": {
+      "allow-contrib": false,
+      "require": "8.0.*"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "symfony/runtime": true
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
+  }
+}

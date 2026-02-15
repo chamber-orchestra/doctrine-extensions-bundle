@@ -1,23 +1,27 @@
 # Chamber Orchestra Doctrine Extensions Bundle
 
-A Symfony bundle that provides lightweight Doctrine extensions for common entity patterns and utility types.
-It includes reusable entity traits, a soft-delete filter, a custom decimal DBAL type, and a SQL `random()` DQL function.
+[![PHP](https://img.shields.io/badge/PHP-%5E8.5-8892BF)](https://www.php.net/)
+[![Symfony](https://img.shields.io/badge/Symfony-8.0-000000)](https://symfony.com/)
+[![Doctrine ORM](https://img.shields.io/badge/Doctrine%20ORM-3-FC6A31)](https://www.doctrine-project.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-only-336791)](https://www.postgresql.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+Lightweight Symfony bundle providing reusable Doctrine ORM extensions for PostgreSQL: entity traits with matching contract interfaces, a soft-delete SQL filter, extended repository base classes, a custom decimal DBAL type, and a `random()` DQL function.
 
 ## Requirements
 
-- PHP `^8.4`
-- Symfony FrameworkBundle
-- Doctrine ORM and DoctrineBundle
+- PHP ^8.5
+- Symfony 8.0
+- Doctrine ORM 3 / DoctrineBundle 3.2
+- PostgreSQL
 
 ## Installation
-
-Install via Composer:
 
 ```bash
 composer require chamber-orchestra/doctrine-extensions-bundle
 ```
 
-Enable the bundle (if not using Symfony Flex auto-discovery):
+If you are not using Symfony Flex:
 
 ```php
 // config/bundles.php
@@ -26,72 +30,92 @@ return [
 ];
 ```
 
-## Usage
+## Features
 
-### Entity traits
+### Entity Traits & Contract Interfaces
 
-Use the bundled traits in your Doctrine entities:
+Each trait has a corresponding interface in `Contracts\Entity`. Implement the interface and use the trait:
 
 ```php
+use ChamberOrchestra\DoctrineExtensionsBundle\Contracts\Entity\IdInterface;
+use ChamberOrchestra\DoctrineExtensionsBundle\Contracts\Entity\SoftDeleteInterface;
+use ChamberOrchestra\DoctrineExtensionsBundle\Contracts\Entity\ToggleInterface;
 use ChamberOrchestra\DoctrineExtensionsBundle\Entity\IdTrait;
-use ChamberOrchestra\DoctrineExtensionsBundle\Entity\ToggleTrait;
 use ChamberOrchestra\DoctrineExtensionsBundle\Entity\SoftDeleteTrait;
+use ChamberOrchestra\DoctrineExtensionsBundle\Entity\ToggleTrait;
+use ChamberOrchestra\DoctrineExtensionsBundle\Entity\VersionTrait;
 
-class Article
+class Article implements IdInterface, SoftDeleteInterface, ToggleInterface
 {
     use IdTrait;
-    use ToggleTrait;
     use SoftDeleteTrait;
+    use ToggleTrait;
+    use VersionTrait;
 }
 ```
 
-### Soft-delete filter
+| Trait | Interface | Fields & Methods |
+|-------|-----------|-----------------|
+| `IdTrait` | `IdInterface` | UUID primary key (caller-assigned). `getId(): Uuid` |
+| `GeneratedIdTrait` | `GeneratedIdInterface` | UUID primary key (auto-generated, nullable before persist). `getId(): ?Uuid` |
+| `SoftDeleteTrait` | `SoftDeleteInterface` | `deletedDatetime` column. `isDeleted()`, `delete()`, `restore()` |
+| `ToggleTrait` | `ToggleInterface` | `enabled` boolean column. `isEnabled()`, `toggle()`, `enable()`, `disable()` |
+| `VersionTrait` | — | Doctrine `@Version` column using `DatePoint` (microsecond precision). `getVersion()` |
 
-Register and enable the filter in Doctrine configuration, then disable per entity when needed:
+### Soft-Delete Filter
+
+Automatically appends `deleted_datetime IS NULL` to queries for entities implementing `SoftDeleteInterface`. Bypass per entity when needed:
 
 ```php
 $filter = $entityManager->getFilters()->enable('soft_delete');
-$filter->disableForEntity(Article::class);
+$filter->disableForEntity(Article::class);   // include soft-deleted articles
+$filter->enableForEntity(Article::class);    // re-enable filtering
 ```
 
-### DQL random function
+### Repository Base Classes
 
-Register the function in Doctrine config and use it in DQL:
+Two base classes provide `getOneBy()` and `indexBy()` out of the box:
+
+- `ServiceEntityRepository` — extends Doctrine bundle's `ServiceEntityRepository`, adds `$cacheable` parameter to `createQueryBuilder()`
+- `EntityRepository` — extends Doctrine ORM's `EntityRepository`, implements `ServiceEntityRepositoryInterface`
 
 ```php
-// doctrine.yaml
-// doctrine:
-//   orm:
-//     dql:
-//       numeric_functions:
-//         random: ChamberOrchestra\DoctrineExtensionsBundle\Function\Random
+use ChamberOrchestra\DoctrineExtensionsBundle\Repository\ServiceEntityRepository;
+
+class ArticleRepository extends ServiceEntityRepository
+{
+    // getOneBy(criteria, orderBy) — throws EntityNotFoundException if not found
+    // indexBy(criteria, orderBy, field) — returns array of field values matching criteria
+}
+```
+
+### Custom Decimal DBAL Type
+
+`DecimalType` overrides Doctrine's `DecimalType` to ensure `convertToPHPValue()` always returns `?string` with scalar type validation.
+
+### DQL Random Function (PostgreSQL)
+
+Maps `random()` DQL to PostgreSQL `random()`:
+
+```yaml
+# config/packages/doctrine.yaml
+doctrine:
+    orm:
+        dql:
+            numeric_functions:
+                random: ChamberOrchestra\DoctrineExtensionsBundle\Function\Random
 ```
 
 ```php
 $qb->select('a')->from(Article::class, 'a')->orderBy('random()');
 ```
 
-### Decimal DBAL type
-
-Use the custom type for decimal precision and ensure Doctrine knows the type:
-
-```php
-#[ORM\Column(type: 'decimal')]
-private string $price;
-```
-
-## Dependencies
-
-Declared in `composer.json`:
-
-- `doctrine/orm`
-- `doctrine/doctrine-bundle`
-- `symfony/framework-bundle`
-
-## Running tests
+## Testing
 
 ```bash
 composer test
 ```
 
-This executes PHPUnit using `phpunit.xml.dist`.
+## License
+
+MIT

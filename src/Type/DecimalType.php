@@ -11,15 +11,22 @@ declare(strict_types=1);
 
 namespace ChamberOrchestra\DoctrineExtensionsBundle\Type;
 
+use ChamberOrchestra\DoctrineExtensionsBundle\Type\Exception\ConversionException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 class DecimalType extends \Doctrine\DBAL\Types\DecimalType
 {
     public function convertToPHPValue($value, AbstractPlatform $platform): ?string
     {
-        $val = parent::convertToPHPValue($value, $platform);
+        if (null === $value) {
+            return null;
+        }
 
-        return null !== $val ? (string)$val : null;
+        if (!\is_scalar($value)) {
+            throw ConversionException::conversionFailedInvalidType(\get_debug_type($value), 'decimal', ['string', 'int', 'float']);
+        }
+
+        return (string) $value;
     }
 
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool

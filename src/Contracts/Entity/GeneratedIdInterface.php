@@ -9,10 +9,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace ChamberOrchestra\DoctrineExtensionsBundle;
+namespace ChamberOrchestra\DoctrineExtensionsBundle\Contracts\Entity;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\Uid\Uuid;
 
-final class ChamberOrchestraDoctrineExtensionsBundle extends Bundle
+interface GeneratedIdInterface
 {
+    public function getId(): ?Uuid;
 }

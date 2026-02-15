@@ -11,12 +11,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Repository;
 
+use ChamberOrchestra\DoctrineExtensionsBundle\Exception\EntityNotFoundException;
 use ChamberOrchestra\DoctrineExtensionsBundle\Repository\EntityRepositoryTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class EntityRepositoryTraitTest extends TestCase
 {
@@ -81,8 +81,79 @@ final class EntityRepositoryTraitTest extends TestCase
             }
         };
 
-        $this->expectException(NotFoundHttpException::class);
+        $this->expectException(EntityNotFoundException::class);
         $repo->getOneBy(['id' => 1]);
+    }
+
+    public function testGetOneByReturnsEntityWithArrayCriteria(): void
+    {
+        $entity = (object) ['id' => 1];
+
+        $repo = new class($entity) {
+            use EntityRepositoryTrait;
+
+            public function __construct(private readonly object $entity)
+            {
+            }
+
+            public function matching(Criteria $criteria): ArrayCollection
+            {
+                return new ArrayCollection([]);
+            }
+
+            public function findOneBy(?array $criteria = null, ?array $orderBy = null): ?object
+            {
+                return $this->entity;
+            }
+
+            public function createQueryBuilder(string $alias): object
+            {
+                return new \stdClass();
+            }
+        };
+
+        $result = $repo->getOneBy(['id' => 1]);
+        self::assertSame($entity, $result);
+    }
+
+    public function testGetOneByWithCriteriaPreservesExistingOrdering(): void
+    {
+        $entity = (object) ['id' => 1];
+
+        $repo = new class($entity) {
+            use EntityRepositoryTrait;
+
+            public Criteria|null $matchedCriteria = null;
+
+            public function __construct(private readonly object $entity)
+            {
+            }
+
+            public function matching(Criteria $criteria): ArrayCollection
+            {
+                $this->matchedCriteria = $criteria;
+
+                return new ArrayCollection([$this->entity]);
+            }
+
+            public function findOneBy(?array $criteria = null, ?array $orderBy = null): ?object
+            {
+                return null;
+            }
+
+            public function createQueryBuilder(string $alias): object
+            {
+                return new \stdClass();
+            }
+        };
+
+        $criteria = Criteria::create(true);
+        $criteria->orderBy(['name' => Order::Descending]);
+        $result = $repo->getOneBy($criteria);
+
+        self::assertSame($entity, $result);
+        self::assertSame(['name' => Order::Descending->value], $criteria->getOrderings());
+        self::assertSame(1, $criteria->getMaxResults());
     }
 
     public function testIndexByBuildsQueryAndReturnsIds(): void
@@ -109,8 +180,126 @@ final class EntityRepositoryTraitTest extends TestCase
 
         self::assertSame([1, 2], $result);
         self::assertSame(['type' => ['a', 'b'], 'owner' => 1], $qb->parameters);
-        self::assertSame(['n.status IS NULL', 'n.type IN (:type)', 'n.owner = :owner'], $qb->whereClauses);
+        self::assertSame(['e.status IS NULL', 'e.type IN (:type)', 'e.owner = :owner'], $qb->whereClauses);
         self::assertSame(['id' => 'DESC'], $qb->orderBy);
+    }
+
+    public function testIndexByWithCustomField(): void
+    {
+        $qb = new FakeQueryBuilder([
+            ['uuid' => 'a'],
+            ['uuid' => 'b'],
+        ]);
+
+        $repo = new class($qb) {
+            use EntityRepositoryTrait;
+
+            public function __construct(private readonly FakeQueryBuilder $qb)
+            {
+            }
+
+            public function createQueryBuilder(string $alias): FakeQueryBuilder
+            {
+                return $this->qb;
+            }
+        };
+
+        $result = $repo->indexBy(field: 'uuid');
+
+        self::assertSame(['a', 'b'], $result);
+        self::assertSame('e.uuid', $qb->selectedField);
+    }
+
+    public function testIndexByRejectsInvalidCriteriaFieldName(): void
+    {
+        $qb = new FakeQueryBuilder([]);
+
+        $repo = new class($qb) {
+            use EntityRepositoryTrait;
+
+            public function __construct(private readonly FakeQueryBuilder $qb)
+            {
+            }
+
+            public function createQueryBuilder(string $alias): FakeQueryBuilder
+            {
+                return $this->qb;
+            }
+        };
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid field name');
+        $repo->indexBy(['id; DROP TABLE users' => 1]);
+    }
+
+    public function testIndexByRejectsInvalidOrderByFieldName(): void
+    {
+        $qb = new FakeQueryBuilder([]);
+
+        $repo = new class($qb) {
+            use EntityRepositoryTrait;
+
+            public function __construct(private readonly FakeQueryBuilder $qb)
+            {
+            }
+
+            public function createQueryBuilder(string $alias): FakeQueryBuilder
+            {
+                return $this->qb;
+            }
+        };
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid field name');
+        $repo->indexBy([], ['id OR 1=1' => 'ASC']);
+    }
+
+    public function testIndexByRejectsInvalidOrderDirection(): void
+    {
+        $qb = new FakeQueryBuilder([]);
+
+        $repo = new class($qb) {
+            use EntityRepositoryTrait;
+
+            public function __construct(private readonly FakeQueryBuilder $qb)
+            {
+            }
+
+            public function createQueryBuilder(string $alias): FakeQueryBuilder
+            {
+                return $this->qb;
+            }
+        };
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid order direction');
+        $repo->indexBy([], ['id' => 'INVALID']);
+    }
+
+    public function testGetOneByThrowsWithDefaultMessage(): void
+    {
+        $repo = new class {
+            use EntityRepositoryTrait;
+
+            public function matching(Criteria $criteria): ArrayCollection
+            {
+                return new ArrayCollection([]);
+            }
+
+            public function findOneBy(?array $criteria = null, ?array $orderBy = null): ?object
+            {
+                return null;
+            }
+
+            public function createQueryBuilder(string $alias): object
+            {
+                return new \stdClass();
+            }
+        };
+
+        $this->expectException(EntityNotFoundException::class);
+        $this->expectExceptionMessage('Entity not found.');
+        $repo->getOneBy(['id' => 1]);
     }
 }
 
@@ -149,6 +338,7 @@ final class FakeQueryBuilder
     public array $parameters = [];
     public array $whereClauses = [];
     public array $orderBy = [];
+    public string $selectedField = '';
 
     public function __construct(private readonly array $rows)
     {
@@ -156,6 +346,8 @@ final class FakeQueryBuilder
 
     public function select(string $select): self
     {
+        $this->selectedField = $select;
+
         return $this;
     }
 
@@ -180,7 +372,7 @@ final class FakeQueryBuilder
 
     public function addOrderBy(string $field, string $direction): self
     {
-        if (str_starts_with($field, 'n.')) {
+        if (str_starts_with($field, 'e.')) {
             $field = substr($field, 2);
         }
         $this->orderBy[$field] = $direction;

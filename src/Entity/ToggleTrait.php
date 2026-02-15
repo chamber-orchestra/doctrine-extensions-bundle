@@ -27,4 +27,14 @@ trait ToggleTrait
     {
         $this->enabled = !$this->enabled;
     }
+
+    public function enable(): void
+    {
+        $this->enabled = true;
+    }
+
+    public function disable(): void
+    {
+        $this->enabled = false;
+    }
 }

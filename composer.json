@@ -1,15 +1,19 @@
 {
   "name": "chamber-orchestra/doctrine-extensions-bundle",
-  "type": "library",
-  "description": "The symfony doctrine extensions bundle",
+  "type": "symfony-bundle",
+  "description": "Lightweight Symfony Doctrine ORM extensions for PostgreSQL — entity traits, soft-delete filter, repository base classes, decimal type, random() DQL",
   "keywords": [
     "symfony",
-    "doctrine-extensions-bundle",
-    "doctrine-extensions",
+    "symfony-bundle",
     "doctrine",
-    "api",
-    "json",
-    "typescript"
+    "doctrine-orm",
+    "doctrine-extensions",
+    "postgresql",
+    "soft-delete",
+    "entity-traits",
+    "uuid",
+    "repository",
+    "dql"
   ],
   "license": "MIT",
   "authors": [
@@ -21,21 +25,18 @@
     }
   ],
   "require": {
-    "ext-intl": "*",
-    "php": "^8.4",
+    "php": "^8.5",
     "symfony/dependency-injection": "8.0.*",
     "symfony/config": "8.0.*",
     "symfony/framework-bundle": "8.0.*",
     "symfony/runtime": "8.0.*",
-    "symfony/options-resolver": "8.0.*",
     "symfony/clock": "8.0.*",
     "symfony/uid": "8.0.*",
     "doctrine/orm": "^3.0",
-    "doctrine/common": "^3.0",
     "doctrine/doctrine-bundle": "3.2.*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^12.5",
+    "phpunit/phpunit": "^13.0",
     "symfony/test-pack": "^1.2"
   },
   "autoload": {

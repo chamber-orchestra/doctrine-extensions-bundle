@@ -11,11 +11,18 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Type;
 
+use ChamberOrchestra\DoctrineExtensionsBundle\Exception\ExceptionInterface;
 use ChamberOrchestra\DoctrineExtensionsBundle\Type\Exception\ConversionException;
 use PHPUnit\Framework\TestCase;
 
 final class ConversionExceptionTest extends TestCase
 {
+    public function testImplementsExceptionInterface(): void
+    {
+        $exception = ConversionException::conversionFailed('value', 'type');
+        self::assertInstanceOf(ExceptionInterface::class, $exception);
+    }
+
     public function testConversionFailedTruncatesLongValue(): void
     {
         $exception = ConversionException::conversionFailed(str_repeat('a', 40), 'custom');

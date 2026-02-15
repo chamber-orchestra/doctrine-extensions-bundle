@@ -29,4 +29,9 @@ trait SoftDeleteTrait
     {
         $this->deletedDatetime = new DatePoint();
     }
+
+    public function restore(): void
+    {
+        $this->deletedDatetime = null;
+    }
 }

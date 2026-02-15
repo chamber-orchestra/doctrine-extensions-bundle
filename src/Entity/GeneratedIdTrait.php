@@ -22,9 +22,9 @@ trait GeneratedIdTrait
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[ORM\Column(type: UuidType::NAME, unique: true, nullable: false)]
-    protected Uuid|null $id;
+    protected Uuid|null $id = null;
 
-    public function getId(): Uuid
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

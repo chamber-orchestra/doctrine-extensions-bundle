@@ -17,7 +17,7 @@ class ServiceEntityRepository extends \Doctrine\Bundle\DoctrineBundle\Repository
 {
     use EntityRepositoryTrait;
 
-    public function createQueryBuilder($alias, $indexBy = null, bool $cacheable = false): QueryBuilder
+    public function createQueryBuilder(string $alias, string|null $indexBy = null, bool $cacheable = false): QueryBuilder
     {
         $qb = parent::createQueryBuilder($alias, $indexBy);
         $qb->setCacheable($cacheable);

@@ -16,4 +16,6 @@ interface SoftDeleteInterface
     public function isDeleted(): bool;
 
     public function delete(): void;
+
+    public function restore(): void;
 }

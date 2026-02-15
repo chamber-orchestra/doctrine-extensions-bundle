@@ -10,33 +10,46 @@ declare(strict_types=1);
 
 namespace ChamberOrchestra\DoctrineExtensionsBundle\Repository;
 
+use ChamberOrchestra\DoctrineExtensionsBundle\Exception\EntityNotFoundException;
 use Doctrine\Common\Collections\Criteria;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 trait EntityRepositoryTrait
 {
+    /**
+     * @throws EntityNotFoundException
+     */
     public function getOneBy(Criteria|array|null $criteria = null, ?array $orderBy = null): object
     {
         if ($criteria instanceof Criteria) {
-            $criteria->orderBy($orderBy ?: [])->setMaxResults(1);
+            if ($orderBy !== null) {
+                $criteria->orderBy($orderBy);
+            }
+            $criteria->setMaxResults(1);
             $entity = $this->matching($criteria)->first();
         } else {
             $entity = $this->findOneBy($criteria, $orderBy);
         }
 
-        if (null === $entity) {
-            throw new NotFoundHttpException();
+        if (null === $entity || false === $entity) {
+            throw new EntityNotFoundException();
         }
 
         return $entity;
     }
 
-    public function indexBy(array $criteria = [], array $orderBy = []): array
+    /**
+     * @throws \InvalidArgumentException
+     */
+    public function indexBy(array $criteria = [], array $orderBy = [], string $field = 'id'): array
     {
-        $qb = $this->createQueryBuilder($alias = 'n');
-        $qb->select($alias.'.id');
+        self::assertValidFieldName($field);
+
+        $qb = $this->createQueryBuilder($alias = 'e');
+        $qb->select($alias.'.'.$field);
 
         foreach ($criteria as $key => $value) {
+            self::assertValidFieldName($key);
+
             if (null === $value) {
                 $expr = $qb->expr()->isNull($alias.'.'.$key);
                 $qb->andWhere($expr);
@@ -52,9 +65,25 @@ trait EntityRepositoryTrait
         }
 
         foreach ($orderBy as $key => $value) {
+            self::assertValidFieldName($key);
+            self::assertValidOrderDirection($value);
             $qb->addOrderBy($alias.'.'.$key, $value);
         }
 
-        return \array_column($qb->getQuery()->getArrayResult(), 'id');
+        return \array_column($qb->getQuery()->getArrayResult(), $field);
+    }
+
+    private static function assertValidFieldName(string $field): void
+    {
+        if (!\preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $field)) {
+            throw new \InvalidArgumentException(\sprintf('Invalid field name "%s".', $field));
+        }
+    }
+
+    private static function assertValidOrderDirection(string $direction): void
+    {
+        if (!\in_array(\strtoupper($direction), ['ASC', 'DESC'], true)) {
+            throw new \InvalidArgumentException(\sprintf('Invalid order direction "%s". Expected "ASC" or "DESC".', $direction));
+        }
     }
 }

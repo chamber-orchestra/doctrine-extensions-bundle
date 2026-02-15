@@ -19,5 +19,10 @@ trait VersionTrait
 {
     #[ORM\Version]
     #[ORM\Column(type: DatePointType::NAME, scale: 6, nullable: false)]
-    protected readonly DatePoint|null $version;
+    protected DatePoint $version;
+
+    public function getVersion(): DatePoint
+    {
+        return $this->version;
+    }
 }

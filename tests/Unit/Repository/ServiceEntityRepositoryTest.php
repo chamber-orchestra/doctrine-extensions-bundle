@@ -25,23 +25,31 @@ final class ServiceEntityRepositoryTest extends TestCase
         $entityClass = DummyEntity::class;
         $metadata = new ClassMetadata($entityClass);
 
+        $cacheableValue = null;
         $queryBuilder = $this->createMock(QueryBuilder::class);
         $queryBuilder->method('select')->willReturnSelf();
         $queryBuilder->method('from')->willReturnSelf();
-        $queryBuilder->expects(self::once())->method('setCacheable')->with(true)->willReturnSelf();
+        $queryBuilder->expects(self::once())->method('setCacheable')->willReturnCallback(
+            function (bool $cacheable) use ($queryBuilder, &$cacheableValue) {
+                $cacheableValue = $cacheable;
+
+                return $queryBuilder;
+            }
+        );
 
         $em = $this->createStub(EntityManagerInterface::class);
         $em->method('createQueryBuilder')->willReturn($queryBuilder);
-        $em->method('getClassMetadata')->with($entityClass)->willReturn($metadata);
+        $em->method('getClassMetadata')->willReturn($metadata);
 
         $registry = $this->createStub(ManagerRegistry::class);
-        $registry->method('getManagerForClass')->with($entityClass)->willReturn($em);
+        $registry->method('getManagerForClass')->willReturn($em);
 
         $repository = new ServiceEntityRepository($registry, $entityClass);
 
         $result = $repository->createQueryBuilder('e', null, true);
 
         self::assertSame($queryBuilder, $result);
+        self::assertTrue($cacheableValue);
     }
 }
 

@@ -19,23 +19,25 @@ class SoftDeleteFilter extends SQLFilter
 {
     private const string DELETED_DATETIME = 'deletedDatetime';
     protected array $disabled = [];
+    private array $softDeleteCache = [];
 
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias): string
     {
-        if (\array_key_exists($class = $targetEntity->getName(), $this->disabled) && $this->disabled[$class] === true) {
+        $class = $targetEntity->getName();
+
+        if (($this->disabled[$class] ?? false) === true) {
             return '';
         }
 
-        if (\array_key_exists($targetEntity->rootEntityName, $this->disabled) && $this->disabled[$targetEntity->rootEntityName] === true) {
+        if (($this->disabled[$targetEntity->rootEntityName] ?? false) === true) {
             return '';
         }
 
-        if (!\in_array(SoftDeleteInterface::class, \class_implements($class))) {
+        if (!($this->softDeleteCache[$class] ??= \is_a($class, SoftDeleteInterface::class, true))) {
             return '';
         }
 
-        $platform = $this->getConnection()->getDatabasePlatform();
-        $column = $targetEntity->getColumnName(self::DELETED_DATETIME, $platform);
+        $column = $targetEntity->getColumnName(self::DELETED_DATETIME);
 
         return $targetTableAlias.'.'.$column.' IS NULL';
     }
@@ -47,6 +49,11 @@ class SoftDeleteFilter extends SQLFilter
 
     public function enableForEntity(string $class): void
     {
-        $this->disabled[$class] = false;
+        unset($this->disabled[$class]);
+    }
+
+    public function clearCache(): void
+    {
+        $this->softDeleteCache = [];
     }
 }

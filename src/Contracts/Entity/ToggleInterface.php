@@ -16,4 +16,8 @@ interface ToggleInterface
     public function isEnabled(): bool;
 
     public function toggle(): void;
+
+    public function enable(): void;
+
+    public function disable(): void;
 }

@@ -33,6 +33,7 @@ final class ClassAvailabilityTest extends TestCase
     public static function provideSymbols(): iterable
     {
         yield ['interface', \ChamberOrchestra\DoctrineExtensionsBundle\Exception\ExceptionInterface::class];
+        yield ['class', \ChamberOrchestra\DoctrineExtensionsBundle\Exception\EntityNotFoundException::class];
         yield ['class', \ChamberOrchestra\DoctrineExtensionsBundle\Type\Exception\ConversionException::class];
         yield ['class', \ChamberOrchestra\DoctrineExtensionsBundle\Type\DecimalType::class];
         yield ['class', \ChamberOrchestra\DoctrineExtensionsBundle\Function\Random::class];
@@ -40,6 +41,8 @@ final class ClassAvailabilityTest extends TestCase
         yield ['class', \ChamberOrchestra\DoctrineExtensionsBundle\DependencyInjection\ChamberOrchestraDoctrineExtensionsExtension::class];
         yield ['class', \ChamberOrchestra\DoctrineExtensionsBundle\ChamberOrchestraDoctrineExtensionsBundle::class];
 
+        yield ['interface', \ChamberOrchestra\DoctrineExtensionsBundle\Contracts\Entity\IdInterface::class];
+        yield ['interface', \ChamberOrchestra\DoctrineExtensionsBundle\Contracts\Entity\GeneratedIdInterface::class];
         yield ['interface', \ChamberOrchestra\DoctrineExtensionsBundle\Contracts\Entity\SoftDeleteInterface::class];
         yield ['interface', \ChamberOrchestra\DoctrineExtensionsBundle\Contracts\Entity\ToggleInterface::class];
 

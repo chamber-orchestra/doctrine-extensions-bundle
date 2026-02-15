@@ -17,6 +17,7 @@ use ChamberOrchestra\DoctrineExtensionsBundle\Entity\SoftDeleteTrait;
 use ChamberOrchestra\DoctrineExtensionsBundle\Entity\ToggleTrait;
 use ChamberOrchestra\DoctrineExtensionsBundle\Entity\VersionTrait;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Uid\Uuid;
 
 final class EntityTraitsTest extends TestCase
@@ -55,6 +56,15 @@ final class EntityTraitsTest extends TestCase
         self::assertSame($uuid, $entity->getId());
     }
 
+    public function testGeneratedIdTraitReturnsNullBeforePersist(): void
+    {
+        $entity = new class {
+            use GeneratedIdTrait;
+        };
+
+        self::assertNull($entity->getId());
+    }
+
     public function testToggleTraitToggles(): void
     {
         $entity = new class {
@@ -63,6 +73,29 @@ final class EntityTraitsTest extends TestCase
 
         self::assertTrue($entity->isEnabled());
         $entity->toggle();
+        self::assertFalse($entity->isEnabled());
+    }
+
+    public function testToggleTraitEnable(): void
+    {
+        $entity = new class {
+            use ToggleTrait;
+        };
+
+        $entity->toggle();
+        self::assertFalse($entity->isEnabled());
+        $entity->enable();
+        self::assertTrue($entity->isEnabled());
+    }
+
+    public function testToggleTraitDisable(): void
+    {
+        $entity = new class {
+            use ToggleTrait;
+        };
+
+        self::assertTrue($entity->isEnabled());
+        $entity->disable();
         self::assertFalse($entity->isEnabled());
     }
 
@@ -77,6 +110,18 @@ final class EntityTraitsTest extends TestCase
         self::assertTrue($entity->isDeleted());
     }
 
+    public function testSoftDeleteTraitRestore(): void
+    {
+        $entity = new class {
+            use SoftDeleteTrait;
+        };
+
+        $entity->delete();
+        self::assertTrue($entity->isDeleted());
+        $entity->restore();
+        self::assertFalse($entity->isDeleted());
+    }
+
     public function testVersionTraitDefinesProperty(): void
     {
         $entity = new class {
@@ -84,6 +129,33 @@ final class EntityTraitsTest extends TestCase
         };
 
         $property = new \ReflectionProperty($entity, 'version');
-        self::assertTrue($property->isReadOnly());
+        self::assertSame(DatePoint::class, $property->getType()->getName());
+    }
+
+    public function testVersionTraitGetterReturnsVersion(): void
+    {
+        $entity = new class {
+            use VersionTrait;
+
+            public function setVersion(DatePoint $version): void
+            {
+                $this->version = $version;
+            }
+        };
+
+        $version = new DatePoint();
+        $entity->setVersion($version);
+
+        self::assertSame($version, $entity->getVersion());
+    }
+
+    public function testVersionTraitThrowsBeforeInitialization(): void
+    {
+        $entity = new class {
+            use VersionTrait;
+        };
+
+        $this->expectException(\Error::class);
+        $entity->getVersion();
     }
 }

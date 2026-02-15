@@ -19,5 +19,5 @@ return static function (ContainerConfigurator $container): void {
         ->private();
 
     $services->load('ChamberOrchestra\\DoctrineExtensionsBundle\\', __DIR__.'/../../*')
-        ->exclude(__DIR__.'/../../{DependencyInjection,Resources,ExceptionInterface,Repository}');
+        ->exclude(__DIR__.'/../../{DependencyInjection,Resources,Exception,Entity,Contracts,Repository,Type}');
 };

@@ -35,6 +35,6 @@ final class ClassAvailabilityTest extends KernelTestCase
             default => false,
         };
 
-        self::assertTrue($exists, sprintf('%s %s should exist', $type, $symbol));
+        self::assertTrue($exists, \sprintf('%s %s should exist', $type, $symbol));
     }
 }

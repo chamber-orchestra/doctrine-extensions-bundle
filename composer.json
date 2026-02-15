@@ -25,17 +25,14 @@
     }
   ],
   "require": {
-    "ext-intl": "*",
     "php": "^8.5",
     "symfony/dependency-injection": "8.0.*",
     "symfony/config": "8.0.*",
     "symfony/framework-bundle": "8.0.*",
     "symfony/runtime": "8.0.*",
-    "symfony/options-resolver": "8.0.*",
     "symfony/clock": "8.0.*",
     "symfony/uid": "8.0.*",
     "doctrine/orm": "^3.0",
-    "doctrine/common": "^3.0",
     "doctrine/doctrine-bundle": "3.2.*"
   },
   "require-dev": {

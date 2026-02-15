@@ -1,13 +1,19 @@
 {
   "name": "chamber-orchestra/doctrine-extensions-bundle",
-  "type": "library",
-  "description": "Symfony Doctrine extensions bundle for PostgreSQL",
+  "type": "symfony-bundle",
+  "description": "Lightweight Symfony Doctrine ORM extensions for PostgreSQL — entity traits, soft-delete filter, repository base classes, decimal type, random() DQL",
   "keywords": [
     "symfony",
-    "doctrine-extensions-bundle",
-    "doctrine-extensions",
+    "symfony-bundle",
     "doctrine",
-    "postgresql"
+    "doctrine-orm",
+    "doctrine-extensions",
+    "postgresql",
+    "soft-delete",
+    "entity-traits",
+    "uuid",
+    "repository",
+    "dql"
   ],
   "license": "MIT",
   "authors": [

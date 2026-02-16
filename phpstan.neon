@@ -6,3 +6,5 @@ parameters:
     paths:
         - src
     tmpDir: var/cache/phpstan
+    ignoreErrors:
+        - identifier: trait.unused

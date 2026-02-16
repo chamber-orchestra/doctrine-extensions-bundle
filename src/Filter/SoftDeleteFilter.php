@@ -18,10 +18,14 @@ use Doctrine\ORM\Query\Filter\SQLFilter;
 class SoftDeleteFilter extends SQLFilter
 {
     private const string DELETED_DATETIME = 'deletedDatetime';
+
+    /** @var array<class-string, bool> */
     protected array $disabled = [];
+
+    /** @var array<class-string, bool> */
     private array $softDeleteCache = [];
 
-    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias): string
+    public function addFilterConstraint(ClassMetadata $targetEntity, string $targetTableAlias): string
     {
         $class = $targetEntity->getName();
 
@@ -42,11 +46,13 @@ class SoftDeleteFilter extends SQLFilter
         return $targetTableAlias.'.'.$column.' IS NULL';
     }
 
+    /** @param class-string $class */
     public function disableForEntity(string $class): void
     {
         $this->disabled[$class] = true;
     }
 
+    /** @param class-string $class */
     public function enableForEntity(string $class): void
     {
         unset($this->disabled[$class]);

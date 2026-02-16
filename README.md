@@ -6,6 +6,8 @@
 [![Latest Stable Version](https://poser.pugx.org/chamber-orchestra/doctrine-extensions-bundle/v)](https://packagist.org/packages/chamber-orchestra/doctrine-extensions-bundle)
 [![License](https://poser.pugx.org/chamber-orchestra/doctrine-extensions-bundle/license)](https://packagist.org/packages/chamber-orchestra/doctrine-extensions-bundle)
 ![Symfony 8](https://img.shields.io/badge/Symfony-8-purple?logo=symfony)
+[![Doctrine ORM](https://img.shields.io/badge/Doctrine%20ORM-3-FC6A31)](https://www.doctrine-project.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-only-336791)](https://www.postgresql.org/)
 
 Lightweight Symfony bundle providing reusable Doctrine ORM extensions for PostgreSQL: entity traits with matching contract interfaces, a soft-delete SQL filter, extended repository base classes, a custom decimal DBAL type, and a `random()` DQL function.
 

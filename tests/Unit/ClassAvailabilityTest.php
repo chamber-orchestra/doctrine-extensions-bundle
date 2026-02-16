@@ -20,14 +20,14 @@ final class ClassAvailabilityTest extends TestCase
     public function testSymbolsAreDefined(string $type, string $symbol): void
     {
         $exists = match ($type) {
-            'class' => class_exists($symbol),
-            'interface' => interface_exists($symbol),
-            'trait' => trait_exists($symbol),
-            'enum' => enum_exists($symbol),
+            'class' => \class_exists($symbol),
+            'interface' => \interface_exists($symbol),
+            'trait' => \trait_exists($symbol),
+            'enum' => \enum_exists($symbol),
             default => false,
         };
 
-        self::assertTrue($exists, sprintf('%s %s should exist', $type, $symbol));
+        self::assertTrue($exists, \sprintf('%s %s should exist', $type, $symbol));
     }
 
     public static function provideSymbols(): iterable

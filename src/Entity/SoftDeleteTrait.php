@@ -18,11 +18,11 @@ use Symfony\Component\Clock\DatePoint;
 trait SoftDeleteTrait
 {
     #[ORM\Column(type: DatePointType::NAME, nullable: true)]
-    protected DatePoint|null $deletedDatetime = null;
+    protected ?DatePoint $deletedDatetime = null;
 
     public function isDeleted(): bool
     {
-        return $this->deletedDatetime !== null;
+        return null !== $this->deletedDatetime;
     }
 
     public function delete(): void

@@ -30,11 +30,11 @@ final class ServiceEntityRepositoryTest extends TestCase
         $queryBuilder->method('select')->willReturnSelf();
         $queryBuilder->method('from')->willReturnSelf();
         $queryBuilder->expects(self::once())->method('setCacheable')->willReturnCallback(
-            function (bool $cacheable) use ($queryBuilder, &$cacheableValue) {
+            static function (bool $cacheable) use ($queryBuilder, &$cacheableValue) {
                 $cacheableValue = $cacheable;
 
                 return $queryBuilder;
-            }
+            },
         );
 
         $em = $this->createStub(EntityManagerInterface::class);

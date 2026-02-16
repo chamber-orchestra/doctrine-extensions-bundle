@@ -25,7 +25,7 @@ final class ConversionExceptionTest extends TestCase
 
     public function testConversionFailedTruncatesLongValue(): void
     {
-        $exception = ConversionException::conversionFailed(str_repeat('a', 40), 'custom');
+        $exception = ConversionException::conversionFailed(\str_repeat('a', 40), 'custom');
         self::assertStringContainsString('Could not convert database value "aaaaaaaaaaaaaaaaaaaa..."', $exception->getMessage());
     }
 
@@ -34,7 +34,7 @@ final class ConversionExceptionTest extends TestCase
         $exception = ConversionException::conversionFailedFormat('bad', 'custom', 'Y-m-d');
         self::assertSame(
             'Could not convert database value "bad" to Doctrine Type custom. Expected format: Y-m-d',
-            $exception->getMessage()
+            $exception->getMessage(),
         );
     }
 
@@ -43,7 +43,7 @@ final class ConversionExceptionTest extends TestCase
         $exception = ConversionException::conversionFailedInvalidType('bad', 'custom', ['string', 'null']);
         self::assertSame(
             'Could not convert database value "bad" to Doctrine Type custom. Expected types: string, null',
-            $exception->getMessage()
+            $exception->getMessage(),
         );
     }
 }

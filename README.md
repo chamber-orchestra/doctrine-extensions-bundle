@@ -1,10 +1,11 @@
 # Chamber Orchestra Doctrine Extensions Bundle
 
-[![PHP](https://img.shields.io/badge/PHP-%5E8.5-8892BF)](https://www.php.net/)
-[![Symfony](https://img.shields.io/badge/Symfony-8.0-000000)](https://symfony.com/)
-[![Doctrine ORM](https://img.shields.io/badge/Doctrine%20ORM-3-FC6A31)](https://www.doctrine-project.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-only-336791)](https://www.postgresql.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![PHP Composer](https://github.com/chamber-orchestra/doctrine-extensions-bundle/actions/workflows/php.yml/badge.svg)](https://github.com/chamber-orchestra/doctrine-extensions-bundle/actions/workflows/php.yml)
+[![codecov](https://codecov.io/gh/chamber-orchestra/doctrine-extensions-bundle/graph/badge.svg)](https://codecov.io/gh/chamber-orchestra/doctrine-extensions-bundle)
+[![PHPStan](https://img.shields.io/badge/PHPStan-level%20max-brightgreen)](https://phpstan.org/)
+[![Latest Stable Version](https://poser.pugx.org/chamber-orchestra/doctrine-extensions-bundle/v)](https://packagist.org/packages/chamber-orchestra/doctrine-extensions-bundle)
+[![License](https://poser.pugx.org/chamber-orchestra/doctrine-extensions-bundle/license)](https://packagist.org/packages/chamber-orchestra/doctrine-extensions-bundle)
+![Symfony 8](https://img.shields.io/badge/Symfony-8-purple?logo=symfony)
 
 Lightweight Symfony bundle providing reusable Doctrine ORM extensions for PostgreSQL: entity traits with matching contract interfaces, a soft-delete SQL filter, extended repository base classes, a custom decimal DBAL type, and a `random()` DQL function.
 

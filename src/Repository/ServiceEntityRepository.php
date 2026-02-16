@@ -13,6 +13,7 @@ namespace ChamberOrchestra\DoctrineExtensionsBundle\Repository;
 
 use Doctrine\ORM\QueryBuilder;
 
+/** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<object> */
 class ServiceEntityRepository extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
 {
     use EntityRepositoryTrait;

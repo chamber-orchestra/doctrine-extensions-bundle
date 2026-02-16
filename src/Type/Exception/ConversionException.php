@@ -31,6 +31,7 @@ class ConversionException extends \Doctrine\DBAL\Types\ConversionException imple
         );
     }
 
+    /** @param list<string> $expectedTypes */
     public static function conversionFailedInvalidType(string $value, string $toType, array $expectedTypes = []): self
     {
         return new self(

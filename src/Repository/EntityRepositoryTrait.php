@@ -18,6 +18,9 @@ use InvalidArgumentException;
 trait EntityRepositoryTrait
 {
     /**
+     * @param Criteria|array<string, mixed>|null $criteria
+     * @param array<string, string>|null         $orderBy
+     *
      * @throws EntityNotFoundException
      */
     public function getOneBy(Criteria|array|null $criteria = null, ?array $orderBy = null): object
@@ -29,7 +32,7 @@ trait EntityRepositoryTrait
             $criteria->setMaxResults(1);
             $entity = $this->matching($criteria)->first();
         } else {
-            $entity = $this->findOneBy($criteria, $orderBy);
+            $entity = $this->findOneBy($criteria ?? [], $orderBy);
         }
 
         if (null === $entity || false === $entity) {
@@ -40,6 +43,11 @@ trait EntityRepositoryTrait
     }
 
     /**
+     * @param array<string, mixed>  $criteria
+     * @param array<string, string> $orderBy
+     *
+     * @return list<mixed>
+     *
      * @throws InvalidArgumentException
      */
     public function indexBy(array $criteria = [], array $orderBy = [], string $field = 'id'): array

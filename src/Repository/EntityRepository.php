@@ -13,6 +13,7 @@ namespace ChamberOrchestra\DoctrineExtensionsBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 
+/** @extends \Doctrine\ORM\EntityRepository<object> */
 class EntityRepository extends \Doctrine\ORM\EntityRepository implements ServiceEntityRepositoryInterface
 {
     use EntityRepositoryTrait;

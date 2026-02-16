@@ -8,6 +8,7 @@
 ![Symfony 8](https://img.shields.io/badge/Symfony-8-purple?logo=symfony)
 [![Doctrine ORM](https://img.shields.io/badge/Doctrine%20ORM-3-FC6A31)](https://www.doctrine-project.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-only-336791)](https://www.postgresql.org/)
+![PHP 8.5](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white)
 
 Lightweight Symfony bundle providing reusable Doctrine ORM extensions for PostgreSQL: entity traits with matching contract interfaces, a soft-delete SQL filter, extended repository base classes, a custom decimal DBAL type, and a `random()` DQL function.
 

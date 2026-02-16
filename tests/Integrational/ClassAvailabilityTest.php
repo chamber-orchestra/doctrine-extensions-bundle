@@ -28,10 +28,10 @@ final class ClassAvailabilityTest extends KernelTestCase
         self::bootKernel();
 
         $exists = match ($type) {
-            'class' => class_exists($symbol),
-            'interface' => interface_exists($symbol),
-            'trait' => trait_exists($symbol),
-            'enum' => enum_exists($symbol),
+            'class' => \class_exists($symbol),
+            'interface' => \interface_exists($symbol),
+            'trait' => \trait_exists($symbol),
+            'enum' => \enum_exists($symbol),
             default => false,
         };
 

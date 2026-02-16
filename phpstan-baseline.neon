@@ -1,0 +1,193 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Trait ChamberOrchestra\\DoctrineExtensionsBundle\\Entity\\GeneratedIdTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/Entity/GeneratedIdTrait.php
+
+		-
+			message: '#^Trait ChamberOrchestra\\DoctrineExtensionsBundle\\Entity\\IdTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/Entity/IdTrait.php
+
+		-
+			message: '#^Trait ChamberOrchestra\\DoctrineExtensionsBundle\\Entity\\SoftDeleteTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/Entity/SoftDeleteTrait.php
+
+		-
+			message: '#^Trait ChamberOrchestra\\DoctrineExtensionsBundle\\Entity\\ToggleTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/Entity/ToggleTrait.php
+
+		-
+			message: '#^Trait ChamberOrchestra\\DoctrineExtensionsBundle\\Entity\\VersionTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/Entity/VersionTrait.php
+
+		-
+			message: '#^Binary operation "\." between mixed and ''\.'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Filter/SoftDeleteFilter.php
+
+		-
+			message: '#^Method ChamberOrchestra\\DoctrineExtensionsBundle\\Filter\\SoftDeleteFilter\:\:addFilterConstraint\(\) has parameter \$targetTableAlias with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Filter/SoftDeleteFilter.php
+
+		-
+			message: '#^Property ChamberOrchestra\\DoctrineExtensionsBundle\\Filter\\SoftDeleteFilter\:\:\$disabled type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Filter/SoftDeleteFilter.php
+
+		-
+			message: '#^Property ChamberOrchestra\\DoctrineExtensionsBundle\\Filter\\SoftDeleteFilter\:\:\$softDeleteCache type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Filter/SoftDeleteFilter.php
+
+		-
+			message: '#^Class ChamberOrchestra\\DoctrineExtensionsBundle\\Repository\\EntityRepository extends generic class Doctrine\\ORM\\EntityRepository but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/EntityRepository.php
+
+		-
+			message: '#^Method ChamberOrchestra\\DoctrineExtensionsBundle\\Repository\\EntityRepository\:\:getOneBy\(\) has parameter \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/EntityRepository.php
+
+		-
+			message: '#^Method ChamberOrchestra\\DoctrineExtensionsBundle\\Repository\\EntityRepository\:\:getOneBy\(\) has parameter \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/EntityRepository.php
+
+		-
+			message: '#^Method ChamberOrchestra\\DoctrineExtensionsBundle\\Repository\\EntityRepository\:\:indexBy\(\) has parameter \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/EntityRepository.php
+
+		-
+			message: '#^Method ChamberOrchestra\\DoctrineExtensionsBundle\\Repository\\EntityRepository\:\:indexBy\(\) has parameter \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/EntityRepository.php
+
+		-
+			message: '#^Method ChamberOrchestra\\DoctrineExtensionsBundle\\Repository\\EntityRepository\:\:indexBy\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/EntityRepository.php
+
+		-
+			message: '#^Parameter \#1 \$criteria of method Doctrine\\ORM\\EntityRepository\<object\>\:\:findOneBy\(\) expects array\<string, mixed\>, array\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/EntityRepository.php
+
+		-
+			message: '#^Parameter \#1 \$direction of static method ChamberOrchestra\\DoctrineExtensionsBundle\\Repository\\EntityRepository\:\:assertValidOrderDirection\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/EntityRepository.php
+
+		-
+			message: '#^Parameter \#1 \$orderings of method Doctrine\\Common\\Collections\\Criteria\:\:orderBy\(\) expects array\<string, Doctrine\\Common\\Collections\\Order\|string\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/EntityRepository.php
+
+		-
+			message: '#^Parameter \#2 \$order of method Doctrine\\ORM\\QueryBuilder\:\:addOrderBy\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/EntityRepository.php
+
+		-
+			message: '#^Parameter \#2 \$orderBy of method Doctrine\\ORM\\EntityRepository\<object\>\:\:findOneBy\(\) expects array\<string, string\>\|null, array\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/EntityRepository.php
+
+		-
+			message: '#^Class ChamberOrchestra\\DoctrineExtensionsBundle\\Repository\\ServiceEntityRepository extends generic class Doctrine\\Bundle\\DoctrineBundle\\Repository\\ServiceEntityRepository but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/ServiceEntityRepository.php
+
+		-
+			message: '#^Method ChamberOrchestra\\DoctrineExtensionsBundle\\Repository\\ServiceEntityRepository\:\:getOneBy\(\) has parameter \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceEntityRepository.php
+
+		-
+			message: '#^Method ChamberOrchestra\\DoctrineExtensionsBundle\\Repository\\ServiceEntityRepository\:\:getOneBy\(\) has parameter \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceEntityRepository.php
+
+		-
+			message: '#^Method ChamberOrchestra\\DoctrineExtensionsBundle\\Repository\\ServiceEntityRepository\:\:indexBy\(\) has parameter \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceEntityRepository.php
+
+		-
+			message: '#^Method ChamberOrchestra\\DoctrineExtensionsBundle\\Repository\\ServiceEntityRepository\:\:indexBy\(\) has parameter \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceEntityRepository.php
+
+		-
+			message: '#^Method ChamberOrchestra\\DoctrineExtensionsBundle\\Repository\\ServiceEntityRepository\:\:indexBy\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceEntityRepository.php
+
+		-
+			message: '#^Parameter \#1 \$criteria of method Doctrine\\Bundle\\DoctrineBundle\\Repository\\ServiceEntityRepository\<object\>\:\:findOneBy\(\) expects array\<string, mixed\>, array\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/ServiceEntityRepository.php
+
+		-
+			message: '#^Parameter \#1 \$direction of static method ChamberOrchestra\\DoctrineExtensionsBundle\\Repository\\ServiceEntityRepository\:\:assertValidOrderDirection\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/ServiceEntityRepository.php
+
+		-
+			message: '#^Parameter \#1 \$orderings of method Doctrine\\Common\\Collections\\Criteria\:\:orderBy\(\) expects array\<string, Doctrine\\Common\\Collections\\Order\|string\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/ServiceEntityRepository.php
+
+		-
+			message: '#^Parameter \#2 \$order of method Doctrine\\ORM\\QueryBuilder\:\:addOrderBy\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/ServiceEntityRepository.php
+
+		-
+			message: '#^Parameter \#2 \$orderBy of method Doctrine\\Bundle\\DoctrineBundle\\Repository\\ServiceEntityRepository\<object\>\:\:findOneBy\(\) expects array\<string, string\>\|null, array\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/ServiceEntityRepository.php
+
+		-
+			message: '#^Method ChamberOrchestra\\DoctrineExtensionsBundle\\Type\\Exception\\ConversionException\:\:conversionFailedInvalidType\(\) has parameter \$expectedTypes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Type/Exception/ConversionException.php

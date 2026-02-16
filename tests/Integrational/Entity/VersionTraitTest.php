@@ -13,6 +13,7 @@ namespace Tests\Integrational\Entity;
 
 use ChamberOrchestra\DoctrineExtensionsBundle\Entity\VersionTrait;
 use Doctrine\ORM\Mapping as ORM;
+use ReflectionProperty;
 use Symfony\Bridge\Doctrine\Types\DatePointType;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Clock\DatePoint;
@@ -33,7 +34,7 @@ final class VersionTraitTest extends KernelTestCase
             use VersionTrait;
         };
 
-        $ref = new \ReflectionProperty($entity, 'version');
+        $ref = new ReflectionProperty($entity, 'version');
 
         $versionAttrs = $ref->getAttributes(ORM\Version::class);
         self::assertCount(1, $versionAttrs, 'Version property must have #[ORM\Version] attribute');
@@ -55,7 +56,7 @@ final class VersionTraitTest extends KernelTestCase
             use VersionTrait;
         };
 
-        $ref = new \ReflectionProperty($entity, 'version');
+        $ref = new ReflectionProperty($entity, 'version');
         $type = $ref->getType();
 
         self::assertNotNull($type);

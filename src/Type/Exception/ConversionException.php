@@ -27,7 +27,7 @@ class ConversionException extends \Doctrine\DBAL\Types\ConversionException imple
     {
         return new self(
             'Could not convert database value "'.self::truncate($value).'" to Doctrine Type '.
-            $toType.'. Expected format: '.$expectedFormat
+            $toType.'. Expected format: '.$expectedFormat,
         );
     }
 
@@ -35,7 +35,7 @@ class ConversionException extends \Doctrine\DBAL\Types\ConversionException imple
     {
         return new self(
             'Could not convert database value "'.self::truncate($value).'" to Doctrine Type '.
-            $toType.'. Expected types: '.\implode(', ', $expectedTypes)
+            $toType.'. Expected types: '.\implode(', ', $expectedTypes),
         );
     }
 

@@ -14,7 +14,6 @@ namespace Tests\Unit\Exception;
 use ChamberOrchestra\DoctrineExtensionsBundle\Exception\EntityNotFoundException;
 use ChamberOrchestra\DoctrineExtensionsBundle\Exception\ExceptionInterface;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
 final class EntityNotFoundExceptionTest extends TestCase
 {
@@ -22,7 +21,7 @@ final class EntityNotFoundExceptionTest extends TestCase
     {
         $exception = new EntityNotFoundException();
         self::assertInstanceOf(ExceptionInterface::class, $exception);
-        self::assertInstanceOf(RuntimeException::class, $exception);
+        self::assertInstanceOf(\RuntimeException::class, $exception);
     }
 
     public function testHasDefaultMessage(): void

@@ -16,9 +16,7 @@ use ChamberOrchestra\DoctrineExtensionsBundle\Repository\EntityRepositoryTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Order;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 final class EntityRepositoryTraitTest extends TestCase
 {
@@ -49,7 +47,7 @@ final class EntityRepositoryTraitTest extends TestCase
 
             public function createQueryBuilder(string $alias): object
             {
-                return new stdClass();
+                return new \stdClass();
             }
         };
 
@@ -79,7 +77,7 @@ final class EntityRepositoryTraitTest extends TestCase
 
             public function createQueryBuilder(string $alias): object
             {
-                return new stdClass();
+                return new \stdClass();
             }
         };
 
@@ -110,7 +108,7 @@ final class EntityRepositoryTraitTest extends TestCase
 
             public function createQueryBuilder(string $alias): object
             {
-                return new stdClass();
+                return new \stdClass();
             }
         };
 
@@ -145,7 +143,7 @@ final class EntityRepositoryTraitTest extends TestCase
 
             public function createQueryBuilder(string $alias): object
             {
-                return new stdClass();
+                return new \stdClass();
             }
         };
 
@@ -229,7 +227,7 @@ final class EntityRepositoryTraitTest extends TestCase
             }
         };
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid field name');
         $repo->indexBy(['id; DROP TABLE users' => 1]);
     }
@@ -251,7 +249,7 @@ final class EntityRepositoryTraitTest extends TestCase
             }
         };
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid field name');
         $repo->indexBy([], ['id OR 1=1' => 'ASC']);
     }
@@ -273,7 +271,7 @@ final class EntityRepositoryTraitTest extends TestCase
             }
         };
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid order direction');
         $repo->indexBy([], ['id' => 'INVALID']);
     }
@@ -295,7 +293,7 @@ final class EntityRepositoryTraitTest extends TestCase
 
             public function createQueryBuilder(string $alias): object
             {
-                return new stdClass();
+                return new \stdClass();
             }
         };
 

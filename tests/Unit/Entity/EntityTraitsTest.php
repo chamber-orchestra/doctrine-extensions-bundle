@@ -16,9 +16,7 @@ use ChamberOrchestra\DoctrineExtensionsBundle\Entity\IdTrait;
 use ChamberOrchestra\DoctrineExtensionsBundle\Entity\SoftDeleteTrait;
 use ChamberOrchestra\DoctrineExtensionsBundle\Entity\ToggleTrait;
 use ChamberOrchestra\DoctrineExtensionsBundle\Entity\VersionTrait;
-use Error;
 use PHPUnit\Framework\TestCase;
-use ReflectionProperty;
 use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Uid\Uuid;
 
@@ -130,7 +128,7 @@ final class EntityTraitsTest extends TestCase
             use VersionTrait;
         };
 
-        $property = new ReflectionProperty($entity, 'version');
+        $property = new \ReflectionProperty($entity, 'version');
         self::assertSame(DatePoint::class, $property->getType()->getName());
     }
 
@@ -157,7 +155,7 @@ final class EntityTraitsTest extends TestCase
             use VersionTrait;
         };
 
-        $this->expectException(Error::class);
+        $this->expectException(\Error::class);
         $entity->getVersion();
     }
 }

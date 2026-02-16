@@ -15,7 +15,6 @@ use ChamberOrchestra\DoctrineExtensionsBundle\Type\DecimalType;
 use ChamberOrchestra\DoctrineExtensionsBundle\Type\Exception\ConversionException;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 final class DecimalTypeTest extends TestCase
 {
@@ -52,7 +51,7 @@ final class DecimalTypeTest extends TestCase
         $type = new DecimalType();
 
         $this->expectException(ConversionException::class);
-        $type->convertToPHPValue(new stdClass(), new PostgreSQLPlatform());
+        $type->convertToPHPValue(new \stdClass(), new PostgreSQLPlatform());
     }
 
     public function testDecimalTypeRequiresSqlCommentHint(): void

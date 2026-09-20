@@ -55,7 +55,7 @@ final class EntityRepositoryTraitTest extends TestCase
         $result = $repo->getOneBy($criteria, ['id' => Order::Ascending]);
 
         self::assertSame($entity, $result);
-        self::assertSame(['id' => Order::Ascending->value], $criteria->getOrderings());
+        self::assertSame(['id' => \SortDirection::Ascending], $criteria->getOrderings());
         self::assertSame(1, $criteria->getMaxResults());
         self::assertSame($criteria, $repo->matchedCriteria);
     }
@@ -152,7 +152,7 @@ final class EntityRepositoryTraitTest extends TestCase
         $result = $repo->getOneBy($criteria);
 
         self::assertSame($entity, $result);
-        self::assertSame(['name' => Order::Descending->value], $criteria->getOrderings());
+        self::assertSame(['name' => \SortDirection::Descending], $criteria->getOrderings());
         self::assertSame(1, $criteria->getMaxResults());
     }
 

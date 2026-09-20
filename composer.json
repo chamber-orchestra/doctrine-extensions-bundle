@@ -32,7 +32,7 @@
     "symfony/runtime": "8.1.*",
     "symfony/clock": "8.1.*",
     "symfony/uid": "8.1.*",
-    "doctrine/orm": "^3.6",
+    "doctrine/orm": "3.7.*",
     "doctrine/doctrine-bundle": "3.3.*"
   },
   "require-dev": {

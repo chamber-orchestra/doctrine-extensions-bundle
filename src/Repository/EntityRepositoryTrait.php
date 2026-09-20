@@ -13,12 +13,13 @@ namespace ChamberOrchestra\DoctrineExtensionsBundle\Repository;
 
 use ChamberOrchestra\DoctrineExtensionsBundle\Exception\EntityNotFoundException;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 
 trait EntityRepositoryTrait
 {
     /**
      * @param Criteria|array<string, mixed>|null $criteria
-     * @param array<string, string>|null         $orderBy
+     * @param array<string, string|Order>|null   $orderBy
      *
      * @throws EntityNotFoundException
      */
@@ -26,12 +27,12 @@ trait EntityRepositoryTrait
     {
         if ($criteria instanceof Criteria) {
             if (null !== $orderBy) {
-                $criteria->orderBy($orderBy);
+                $criteria->orderBy(self::normalizeOrderings($orderBy));
             }
             $criteria->setMaxResults(1);
             $entity = $this->matching($criteria)->first();
         } else {
-            $entity = $this->findOneBy($criteria ?? [], $orderBy);
+            $entity = $this->findOneBy($criteria ?? [], self::denormalizeOrderings($orderBy));
         }
 
         if (null === $entity || false === $entity) {
@@ -94,5 +95,46 @@ trait EntityRepositoryTrait
         if (!\in_array(\strtoupper($direction), ['ASC', 'DESC'], true)) {
             throw new \InvalidArgumentException(\sprintf('Invalid order direction "%s". Expected "ASC" or "DESC".', $direction));
         }
+    }
+
+    /**
+     * Normalizes ordering directions for Criteria::orderBy().
+     *
+     * doctrine/collections 3.x requires the Order enum where 2.x accepted plain
+     * strings, so string directions are still accepted here and converted.
+     *
+     * @param array<string, string|Order> $orderings
+     *
+     * @return array<string, Order>
+     */
+    private static function normalizeOrderings(array $orderings): array
+    {
+        return \array_map(
+            static fn (string|Order $direction): Order => $direction instanceof Order
+                ? $direction
+                : Order::from(\strtoupper($direction)),
+            $orderings,
+        );
+    }
+
+    /**
+     * Converts ordering directions back to the plain strings findOneBy() expects.
+     *
+     * @param array<string, string|Order>|null $orderings
+     *
+     * @return array<string, string>|null
+     */
+    private static function denormalizeOrderings(?array $orderings): ?array
+    {
+        if (null === $orderings) {
+            return null;
+        }
+
+        return \array_map(
+            static fn (string|Order $direction): string => $direction instanceof Order
+                ? $direction->value
+                : $direction,
+            $orderings,
+        );
     }
 }

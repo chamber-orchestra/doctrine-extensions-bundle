@@ -122,7 +122,7 @@ trait EntityRepositoryTrait
      *
      * @param array<string, string|Order>|null $orderings
      *
-     * @return array<string, string>|null
+     * @return array<string, 'ASC'|'DESC'>|null
      */
     private static function denormalizeOrderings(?array $orderings): ?array
     {
@@ -130,11 +130,6 @@ trait EntityRepositoryTrait
             return null;
         }
 
-        return \array_map(
-            static fn (string|Order $direction): string => $direction instanceof Order
-                ? $direction->value
-                : $direction,
-            $orderings,
-        );
+        return \array_map(static fn (Order $order): string => $order->value, self::normalizeOrderings($orderings));
     }
 }

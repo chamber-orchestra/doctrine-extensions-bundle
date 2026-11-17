@@ -15,7 +15,7 @@ Lightweight Symfony bundle providing reusable Doctrine ORM extensions for Postgr
 ## Requirements
 
 - PHP ^8.5
-- Symfony 8.0
+- Symfony 8.2
 - Doctrine ORM 3 / DoctrineBundle 3.2
 - PostgreSQL
 
